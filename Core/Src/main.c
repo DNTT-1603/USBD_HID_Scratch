@@ -101,16 +101,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_OTG_FS_PCD_Init();
+  usbd_initialize();
 
   /* USER CODE BEGIN 2 */
   log_info("Setting project");
 //  usbd_initialize();
 //  /* USER CODE END 2 */
-//  HAL_Delay(3000);
+
 //  disconnect();
-  connect();
-  HAL_Delay(10000);
-  disconnect();
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
