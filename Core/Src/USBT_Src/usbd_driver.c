@@ -8,6 +8,7 @@
 #include "USBT_Inc/usbd_driver.h"
 #include "USBT_Inc/usbd_standards.h"
 #include "logger.h"
+#include "string.h"
 
 // ----------------------------------------------------------------------
 // USB Driver declaration functions
@@ -131,6 +132,37 @@ void disconnect()
 
 }
 
+static void iepint_handler() {
+	//Find which IN endpoint generated the interrupt 
+	uint32_t daint = ffs(USB_OTG_FS_DEVICE -> DAINT) -1; //It finds the position of the first (least significant) bit that is set to 1
+	
+	// complete IN transfer
+	if(IN_ENDPOINT(daint)->DIEPINT & USB_OTG_DIEPINT_XFRC) {
+		log_debug("IN endpoint %d transfer completed", daint);
+
+		usb_events.on_in_transfer_completed(daint);
+
+		// clear interrupt
+		SET_BIT(IN_ENDPOINT(daint)->DIEPINT, USB_OTG_DIEPINT_XFRC);
+	}
+}
+
+
+static void oepint_handler() {
+	//Find which OUT endpoint generated the interrupt 
+	uint32_t daint = ffs((USB_OTG_FS_DEVICE -> DAINT)>>16) -1; //It finds the position of the first (least significant) bit that is set to 1
+	
+	// complete OUT transfer
+	if(OUT_ENDPOINT(daint)->DOEPINT & USB_OTG_DOEPINT_XFRC) {
+		log_debug("OUT endpoint %d transfer completed", daint);
+
+		usb_events.on_out_transfer_completed(daint);
+
+		// clear interrupt
+		SET_BIT(OUT_ENDPOINT(daint)->DOEPINT, USB_OTG_DOEPINT_XFRC);
+	}
+}
+
 
 void GINTSTS_handler() {
 	// NOTE: after finish handerling intr, it have to be cleared.
@@ -159,12 +191,15 @@ void GINTSTS_handler() {
 		SET_BIT(USB_OTG_FS_GLOBAL->GINTSTS,USB_OTG_GINTSTS_RXFLVL_Msk);
 
 	}
-	else if (gintsts & USB_OTG_GINTSTS_IEPINT) {
+	else if (gintsts & USB_OTG_GINTSTS_IEPINT) { 
+		// there are in interrupt need to handle hear, 
+
 
 	}
 	else if (gintsts & USB_OTG_GINTSTS_OEPINT) {
 
 	}
+	usb_events.on_usb_polled();
 
 }
 
@@ -297,8 +332,8 @@ static void configure_txfifo_size(const uint8_t enp_number, const uint16_t size)
 		// Configure the size of the Tx FIFO
 		// TODO: in the video it use USB_OTG_NPTXFD reg??
 		MODIFY_REG(USB_OTG_FS_GLOBAL->DIEPTXF[enp_number -1],
-				USB_OTG_DIEPTXF_INEPTXFD,
-				_VAL2FLD(USB_OTG_DIEPTXF_INEPTXFD,true_size)
+				USB_OTG_NPTXFD,
+				_VAL2FLD(USB_OTG_NPTXFD,true_size)
 				);
 	}
 	refresh_fifo_start_address();
@@ -319,25 +354,26 @@ static void refresh_fifo_start_address()
 	 // in bytes
 	for (uint8_t i = 0; i < ENDPOINT_COUNT - 1; i++) {
 		MODIFY_REG(USB_OTG_FS_GLOBAL->DIEPTXF[i],
-				USB_OTG_DIEPTXF_INEPTXSA,
-				_VAL2FLD(USB_OTG_DIEPTXF_INEPTXSA,start_addr)
+				USB_OTG_NPTXFSA,
+				_VAL2FLD(USB_OTG_NPTXFSA,start_addr)
 				);
-		start_addr += _FLD2VAL(USB_OTG_DIEPTXF_INEPTXFD, USB_OTG_FS_GLOBAL->DIEPTXF[i]) * 4; // in bytes
+		start_addr += _FLD2VAL(USB_OTG_NPTXFD, USB_OTG_FS_GLOBAL->DIEPTXF[i]) * 4; // in bytes
 	}
 
 }
 
 static void usbrts_handle() {
 	log_info("USB reset detected");
-
+ 
 	for(uint8_t i=0; i <= ENDPOINT_COUNT; i++) {
 		deconfigure_inOut_enpoint(i);
 	}
+	usb_events.on_usb_reset_received();
 }
 
 static void enumeration_done_handle() {
 	log_info("USB enumeration done detected");
-	configure_endpoint0(0b11); // TODO: pass correct endpoint size here
+	configure_endpoint0(USB_MAX_PACKET_SIZE_ENP0); // TODO: pass correct endpoint size here
 
 }
 
@@ -360,13 +396,15 @@ static void rxflvl_handle() {
 	// each time reading this register, read a word from the Rx FIFO
 	uint32_t receive_status = USB_OTG_FS_GLOBAL->GRXSTSP;
 	uint8_t enp_number = _FLD2VAL(USB_OTG_GRXSTSP_EPNUM, receive_status);
-//	uint16_t byte_count = _FLD2VAL(USB_OTG_GRXSTSP_BCNT, receive_status);
+	uint16_t byte_count = _FLD2VAL(USB_OTG_GRXSTSP_BCNT, receive_status);
 	uint16_t packet_status = _FLD2VAL(USB_OTG_GRXSTSP_PKTSTS, receive_status);
 
+	log_debug("RXFLVL handler: enp_number=%d, byte_count=%d, packet_status=0x%02X",
+			enp_number, byte_count, packet_status);
 	switch (packet_status)
 	{
 	case 0x06 : // SETUP packet
-		/* code */
+		usb_events.on_setup_data_received(enp_number,byte_count);
 		break;
 
 	case 0x02 : // OUT data packet
@@ -449,11 +487,20 @@ static void write_packet(uint8_t enp_number, const void *buffer, uint16_t size)
 	}
 }
 
+static void set_device_address(uint8_t address)
+{
+  USB_OTG_FS_DEVICE->DCFG &= ~(USB_OTG_DCFG_DAD_Msk);
+
+  USB_OTG_FS_DEVICE->DCFG|= (uint32_t) ((address <<USB_OTG_DCFG_DAD_Pos) & USB_OTG_DCFG_DAD_Msk);
+
+}
+
 const UsbDriver usbd_driver =
 {
 	.initialize_core = initialize_core,
 	.initialize_usb_core_external = initialize_usb_core_external,
 	.initialize_gpio_pins = initialize_usb_pin,
+	.set_device_address = set_device_address,
 	.connect = connect,
 	.disconnect = disconnect,
 	.flush_rxfifo = flush_rxfifo,
@@ -461,5 +508,6 @@ const UsbDriver usbd_driver =
 	.configure_in_endpoint = configure_in_enpoint,
 	.read_packet = read_packet,
 	.write_packet = write_packet,
+	.poll = GINTSTS_handler
 	// ToDO Add pointers to the other driver functions.
 };

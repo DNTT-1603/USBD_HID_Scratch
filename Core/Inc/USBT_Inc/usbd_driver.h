@@ -7,7 +7,9 @@
 
 #ifndef USBD_DRIVER_H_
 #define USBD_DRIVER_H_
+#include "stm32l476xx.h"
 #include "stm32l4xx.h"
+
 #include "USBT_Inc/usbd_standards.h"
 
 // @Ref: Table 2. STM32L49x/L4Ax devices memory map and peripheral register boundary addresses(1)
@@ -73,5 +75,6 @@ typedef struct
 } UsbDriver;
 
 extern const UsbDriver usbd_driver;
+extern UsbEvents usb_events;
 
 #endif /* USBD_DRIVER_H_ */

@@ -1,0 +1,461 @@
+15:16:50 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_framwork.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_framwork.d" -MT"Core/Src/USBT_Src/usbd_framwork.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_framwork.o"
+In file included from ../Core/Src/USBT_Src/usbd_framwork.c:11:
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: warning: implicit declaration of function 'HID_USAGE_PAGE' [-Wimplicit-function-declaration]
+   33 |     HID_USAGE_PAGE (HID_PAGE_DESKTOP), // USAGE_PAGE (Generic Desktop)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:21: error: 'HID_PAGE_DESKTOP' undeclared here (not in a function)
+   33 |     HID_USAGE_PAGE (HID_PAGE_DESKTOP), // USAGE_PAGE (Generic Desktop)
+      |                     ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: warning: implicit declaration of function 'HID_USAGE' [-Wimplicit-function-declaration]
+   34 |     HID_USAGE (HID_DESKTOP_MOUSE), // USAGE (Mouse)
+      |     ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:16: error: 'HID_DESKTOP_MOUSE' undeclared here (not in a function)
+   34 |     HID_USAGE (HID_DESKTOP_MOUSE), // USAGE (Mouse)
+      |                ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:5: warning: implicit declaration of function 'HID_COLLECTION' [-Wimplicit-function-declaration]
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:21: error: 'HID_APPLICATION' undeclared here (not in a function)
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |                     ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:36:20: error: 'HID_DESKTOP_POINTER' undeclared here (not in a function)
+   36 |         HID_USAGE (HID_DESKTOP_POINTER), // USAGE (Pointer)
+      |                    ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:37:25: error: 'HID_PHYSICAL_COLLECTION' undeclared here (not in a function)
+   37 |         HID_COLLECTION (HID_PHYSICAL_COLLECTION ), // COLLECTION (Physical)
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:38:24: error: 'HID_DESKTOP_X' undeclared here (not in a function)
+   38 |             HID_USAGE (HID_DESKTOP_X),   // USAGE (X)
+      |                        ^~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:39:24: error: 'HID_DESKTOP_Y' undeclared here (not in a function)
+   39 |             HID_USAGE (HID_DESKTOP_Y),   // USAGE (Y)
+      |                        ^~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: warning: implicit declaration of function 'HID_LOGICAL_MINIMUM' [-Wimplicit-function-declaration]
+   40 |             HID_LOGICAL_MINIMUM (-127),              // LOGICAL_MINIMUM (-127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: note: (near initialization for 'hid_report_descriptor[7]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: warning: implicit declaration of function 'HID_LOGICAL_MAXIMUM' [-Wimplicit-function-declaration]
+   41 |             HID_LOGICAL_MAXIMUM (127),               // LOGICAL_MAXIMUM (127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: note: (near initialization for 'hid_report_descriptor[8]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: warning: implicit declaration of function 'HID_REPORT_SIZE' [-Wimplicit-function-declaration]
+   42 |             HID_REPORT_SIZE (8),                    // REPORT_SIZE (8)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: note: (near initialization for 'hid_report_descriptor[9]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: warning: implicit declaration of function 'HID_REPORT_COUNT' [-Wimplicit-function-declaration]
+   43 |             HID_REPORT_COUNT (2),                   // REPORT_COUNT (1)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: note: (near initialization for 'hid_report_descriptor[10]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:13: warning: implicit declaration of function 'HID_INPUT'; did you mean 'MODE_INPUT'? [-Wimplicit-function-declaration]
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |             ^~~~~~~~~
+      |             MODE_INPUT
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:24: error: 'HID_IOF_DATA' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                        ^~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:39: error: 'HID_IOF_VARIABLE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                       ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:59: error: 'HID_IOF_RELATIVE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:46:29: error: 'HID_PAGE_BUTTON' undeclared here (not in a function)
+   46 |             HID_USAGE_PAGE (HID_PAGE_BUTTON),       // USAGE_PAGE (Generic Desktop)
+      |                             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: warning: implicit declaration of function 'HID_USAGE_MINIMUM' [-Wimplicit-function-declaration]
+   47 |             HID_USAGE_MINIMUM (1),                 // USAGE_MINIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: note: (near initialization for 'hid_report_descriptor[13]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: warning: implicit declaration of function 'HID_USAGE_MAXIMUM' [-Wimplicit-function-declaration]
+   48 |             HID_USAGE_MAXIMUM (3),                 // USAGE_MAXIMUM (3)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: note: (near initialization for 'hid_report_descriptor[14]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: error: initializer element is not constant
+   49 |             HID_LOGICAL_MINIMUM (0),               // LOGICAL_MINIMUM (0)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: note: (near initialization for 'hid_report_descriptor[15]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: error: initializer element is not constant
+   50 |             HID_LOGICAL_MAXIMUM (1),               // LOGICAL_MAXIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: note: (near initialization for 'hid_report_descriptor[16]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: error: initializer element is not constant
+   51 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: note: (near initialization for 'hid_report_descriptor[17]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: error: initializer element is not constant
+   52 |             HID_REPORT_COUNT (3),                   // REPORT_COUNT (3)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: note: (near initialization for 'hid_report_descriptor[18]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:53:59: error: 'HID_IOF_ABSOLUTE' undeclared here (not in a function)
+   53 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_ABSOLUTE), // INPUT ( Data,Var,Abs)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: error: initializer element is not constant
+   54 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: note: (near initialization for 'hid_report_descriptor[20]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: error: initializer element is not constant
+   55 |             HID_REPORT_COUNT (5),                   // REPORT_COUNT (5)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: note: (near initialization for 'hid_report_descriptor[21]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:56:24: error: 'HID_IOF_CONSTANT' undeclared here (not in a function)
+   56 |             HID_INPUT (HID_IOF_CONSTANT),           // INPUT (Cnst)
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:57:9: error: 'HID_END_COLLECTION' undeclared here (not in a function)
+   57 |         HID_END_COLLECTION,                     // END_COLLECTION
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_framwork.c: In function 'process_standard_device_request':
+../Core/Src/USBT_Src/usbd_framwork.c:35:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   35 |       usbd_handle -> prt_in_buffer = &device_descriptor;
+      |                                    ^
+../Core/Src/USBT_Src/usbd_framwork.c:41:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   41 |       usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      |                                    ^
+make: *** [Core/Src/USBT_Src/subdir.mk:22: Core/Src/USBT_Src/usbd_framwork.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+15:17:31 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_driver.d" -MT"Core/Src/USBT_Src/usbd_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_driver.o"
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_framwork.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_framwork.d" -MT"Core/Src/USBT_Src/usbd_framwork.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_framwork.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/USBT_Src/usbd_driver.c:151:13: warning: 'oepint_handler' defined but not used [-Wunused-function]
+  151 | static void oepint_handler() {
+      |             ^~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_driver.c:135:13: warning: 'iepint_handler' defined but not used [-Wunused-function]
+  135 | static void iepint_handler() {
+      |             ^~~~~~~~~~~~~~
+In file included from ../Core/Src/USBT_Src/usbd_framwork.c:11:
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: warning: implicit declaration of function 'HID_USAGE_PAGE' [-Wimplicit-function-declaration]
+   33 |     HID_USAGE_PAGE (HID_PAGE_DESKTOP), // USAGE_PAGE (Generic Desktop)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: note: (near initialization for 'hid_report_descriptor[0]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: warning: implicit declaration of function 'HID_USAGE' [-Wimplicit-function-declaration]
+   34 |     HID_USAGE (HID_DESKTOP_MOUSE), // USAGE (Mouse)
+      |     ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: note: (near initialization for 'hid_report_descriptor[1]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:5: warning: implicit declaration of function 'HID_COLLECTION' [-Wimplicit-function-declaration]
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:21: error: 'HID_APPLICATION' undeclared here (not in a function)
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |                     ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:36:9: error: initializer element is not constant
+   36 |         HID_USAGE (HID_DESKTOP_POINTER), // USAGE (Pointer)
+      |         ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:36:9: note: (near initialization for 'hid_report_descriptor[3]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:37:25: error: 'HID_PHYSICAL_COLLECTION' undeclared here (not in a function)
+   37 |         HID_COLLECTION (HID_PHYSICAL_COLLECTION ), // COLLECTION (Physical)
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:38:13: error: initializer element is not constant
+   38 |             HID_USAGE (HID_DESKTOP_X),   // USAGE (X)
+      |             ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:38:13: note: (near initialization for 'hid_report_descriptor[5]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:39:13: error: initializer element is not constant
+   39 |             HID_USAGE (HID_DESKTOP_Y),   // USAGE (Y)
+      |             ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:39:13: note: (near initialization for 'hid_report_descriptor[6]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: warning: implicit declaration of function 'HID_LOGICAL_MINIMUM' [-Wimplicit-function-declaration]
+   40 |             HID_LOGICAL_MINIMUM (-127),              // LOGICAL_MINIMUM (-127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: note: (near initialization for 'hid_report_descriptor[7]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: warning: implicit declaration of function 'HID_LOGICAL_MAXIMUM' [-Wimplicit-function-declaration]
+   41 |             HID_LOGICAL_MAXIMUM (127),               // LOGICAL_MAXIMUM (127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: note: (near initialization for 'hid_report_descriptor[8]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: warning: implicit declaration of function 'HID_REPORT_SIZE' [-Wimplicit-function-declaration]
+   42 |             HID_REPORT_SIZE (8),                    // REPORT_SIZE (8)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: note: (near initialization for 'hid_report_descriptor[9]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: warning: implicit declaration of function 'HID_REPORT_COUNT' [-Wimplicit-function-declaration]
+   43 |             HID_REPORT_COUNT (2),                   // REPORT_COUNT (1)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: note: (near initialization for 'hid_report_descriptor[10]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:13: warning: implicit declaration of function 'HID_INPUT'; did you mean 'MODE_INPUT'? [-Wimplicit-function-declaration]
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |             ^~~~~~~~~
+      |             MODE_INPUT
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:24: error: 'HID_IOF_DATA' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                        ^~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:39: error: 'HID_IOF_VARIABLE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                       ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:59: error: 'HID_IOF_RELATIVE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:46:13: error: initializer element is not constant
+   46 |             HID_USAGE_PAGE (HID_PAGE_BUTTON),       // USAGE_PAGE (Generic Desktop)
+      |             ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:46:13: note: (near initialization for 'hid_report_descriptor[12]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: warning: implicit declaration of function 'HID_USAGE_MINIMUM' [-Wimplicit-function-declaration]
+   47 |             HID_USAGE_MINIMUM (1),                 // USAGE_MINIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: note: (near initialization for 'hid_report_descriptor[13]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: warning: implicit declaration of function 'HID_USAGE_MAXIMUM' [-Wimplicit-function-declaration]
+   48 |             HID_USAGE_MAXIMUM (3),                 // USAGE_MAXIMUM (3)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: note: (near initialization for 'hid_report_descriptor[14]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: error: initializer element is not constant
+   49 |             HID_LOGICAL_MINIMUM (0),               // LOGICAL_MINIMUM (0)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: note: (near initialization for 'hid_report_descriptor[15]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: error: initializer element is not constant
+   50 |             HID_LOGICAL_MAXIMUM (1),               // LOGICAL_MAXIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: note: (near initialization for 'hid_report_descriptor[16]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: error: initializer element is not constant
+   51 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: note: (near initialization for 'hid_report_descriptor[17]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: error: initializer element is not constant
+   52 |             HID_REPORT_COUNT (3),                   // REPORT_COUNT (3)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: note: (near initialization for 'hid_report_descriptor[18]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:53:59: error: 'HID_IOF_ABSOLUTE' undeclared here (not in a function)
+   53 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_ABSOLUTE), // INPUT ( Data,Var,Abs)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: error: initializer element is not constant
+   54 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: note: (near initialization for 'hid_report_descriptor[20]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: error: initializer element is not constant
+   55 |             HID_REPORT_COUNT (5),                   // REPORT_COUNT (5)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: note: (near initialization for 'hid_report_descriptor[21]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:56:24: error: 'HID_IOF_CONSTANT' undeclared here (not in a function)
+   56 |             HID_INPUT (HID_IOF_CONSTANT),           // INPUT (Cnst)
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:57:9: error: 'HID_END_COLLECTION' undeclared here (not in a function)
+   57 |         HID_END_COLLECTION,                     // END_COLLECTION
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_framwork.c: In function 'process_standard_device_request':
+../Core/Src/USBT_Src/usbd_framwork.c:35:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   35 |       usbd_handle -> prt_in_buffer = &device_descriptor;
+      |                                    ^
+../Core/Src/USBT_Src/usbd_framwork.c:41:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   41 |       usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      |                                    ^
+make: *** [Core/Src/USBT_Src/subdir.mk:22: Core/Src/USBT_Src/usbd_framwork.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+15:17:38 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_framwork.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_framwork.d" -MT"Core/Src/USBT_Src/usbd_framwork.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_framwork.o"
+In file included from ../Core/Src/USBT_Src/usbd_framwork.c:11:
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: warning: implicit declaration of function 'HID_USAGE_PAGE' [-Wimplicit-function-declaration]
+   33 |     HID_USAGE_PAGE (HID_PAGE_DESKTOP), // USAGE_PAGE (Generic Desktop)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:33:5: note: (near initialization for 'hid_report_descriptor[0]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: warning: implicit declaration of function 'HID_USAGE' [-Wimplicit-function-declaration]
+   34 |     HID_USAGE (HID_DESKTOP_MOUSE), // USAGE (Mouse)
+      |     ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:34:5: note: (near initialization for 'hid_report_descriptor[1]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:5: warning: implicit declaration of function 'HID_COLLECTION' [-Wimplicit-function-declaration]
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |     ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:21: error: 'HID_APPLICATION' undeclared here (not in a function)
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |                     ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:36:9: error: initializer element is not constant
+   36 |         HID_USAGE (HID_DESKTOP_POINTER), // USAGE (Pointer)
+      |         ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:36:9: note: (near initialization for 'hid_report_descriptor[3]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:37:25: error: 'HID_PHYSICAL_COLLECTION' undeclared here (not in a function)
+   37 |         HID_COLLECTION (HID_PHYSICAL_COLLECTION ), // COLLECTION (Physical)
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:38:13: error: initializer element is not constant
+   38 |             HID_USAGE (HID_DESKTOP_X),   // USAGE (X)
+      |             ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:38:13: note: (near initialization for 'hid_report_descriptor[5]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:39:13: error: initializer element is not constant
+   39 |             HID_USAGE (HID_DESKTOP_Y),   // USAGE (Y)
+      |             ^~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:39:13: note: (near initialization for 'hid_report_descriptor[6]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: warning: implicit declaration of function 'HID_LOGICAL_MINIMUM' [-Wimplicit-function-declaration]
+   40 |             HID_LOGICAL_MINIMUM (-127),              // LOGICAL_MINIMUM (-127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:40:13: note: (near initialization for 'hid_report_descriptor[7]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: warning: implicit declaration of function 'HID_LOGICAL_MAXIMUM' [-Wimplicit-function-declaration]
+   41 |             HID_LOGICAL_MAXIMUM (127),               // LOGICAL_MAXIMUM (127)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:41:13: note: (near initialization for 'hid_report_descriptor[8]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: warning: implicit declaration of function 'HID_REPORT_SIZE' [-Wimplicit-function-declaration]
+   42 |             HID_REPORT_SIZE (8),                    // REPORT_SIZE (8)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:42:13: note: (near initialization for 'hid_report_descriptor[9]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: warning: implicit declaration of function 'HID_REPORT_COUNT' [-Wimplicit-function-declaration]
+   43 |             HID_REPORT_COUNT (2),                   // REPORT_COUNT (1)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:43:13: note: (near initialization for 'hid_report_descriptor[10]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:13: warning: implicit declaration of function 'HID_INPUT'; did you mean 'MODE_INPUT'? [-Wimplicit-function-declaration]
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |             ^~~~~~~~~
+      |             MODE_INPUT
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:24: error: 'HID_IOF_DATA' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                        ^~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:39: error: 'HID_IOF_VARIABLE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                       ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:44:59: error: 'HID_IOF_RELATIVE' undeclared here (not in a function)
+   44 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:46:13: error: initializer element is not constant
+   46 |             HID_USAGE_PAGE (HID_PAGE_BUTTON),       // USAGE_PAGE (Generic Desktop)
+      |             ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:46:13: note: (near initialization for 'hid_report_descriptor[12]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: warning: implicit declaration of function 'HID_USAGE_MINIMUM' [-Wimplicit-function-declaration]
+   47 |             HID_USAGE_MINIMUM (1),                 // USAGE_MINIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:47:13: note: (near initialization for 'hid_report_descriptor[13]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: warning: implicit declaration of function 'HID_USAGE_MAXIMUM' [-Wimplicit-function-declaration]
+   48 |             HID_USAGE_MAXIMUM (3),                 // USAGE_MAXIMUM (3)
+      |             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: error: initializer element is not constant
+../Core/Inc/USBT_Inc/usbd_descriptors.h:48:13: note: (near initialization for 'hid_report_descriptor[14]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: error: initializer element is not constant
+   49 |             HID_LOGICAL_MINIMUM (0),               // LOGICAL_MINIMUM (0)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:49:13: note: (near initialization for 'hid_report_descriptor[15]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: error: initializer element is not constant
+   50 |             HID_LOGICAL_MAXIMUM (1),               // LOGICAL_MAXIMUM (1)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:50:13: note: (near initialization for 'hid_report_descriptor[16]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: error: initializer element is not constant
+   51 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:51:13: note: (near initialization for 'hid_report_descriptor[17]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: error: initializer element is not constant
+   52 |             HID_REPORT_COUNT (3),                   // REPORT_COUNT (3)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:52:13: note: (near initialization for 'hid_report_descriptor[18]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:53:59: error: 'HID_IOF_ABSOLUTE' undeclared here (not in a function)
+   53 |             HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_ABSOLUTE), // INPUT ( Data,Var,Abs)
+      |                                                           ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: error: initializer element is not constant
+   54 |             HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+      |             ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:54:13: note: (near initialization for 'hid_report_descriptor[20]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: error: initializer element is not constant
+   55 |             HID_REPORT_COUNT (5),                   // REPORT_COUNT (5)
+      |             ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:55:13: note: (near initialization for 'hid_report_descriptor[21]')
+../Core/Inc/USBT_Inc/usbd_descriptors.h:56:24: error: 'HID_IOF_CONSTANT' undeclared here (not in a function)
+   56 |             HID_INPUT (HID_IOF_CONSTANT),           // INPUT (Cnst)
+      |                        ^~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:57:9: error: 'HID_END_COLLECTION' undeclared here (not in a function)
+   57 |         HID_END_COLLECTION,                     // END_COLLECTION
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_framwork.c: In function 'process_standard_device_request':
+../Core/Src/USBT_Src/usbd_framwork.c:35:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   35 |       usbd_handle -> prt_in_buffer = &device_descriptor;
+      |                                    ^
+../Core/Src/USBT_Src/usbd_framwork.c:41:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   41 |       usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      |                                    ^
+make: *** [Core/Src/USBT_Src/subdir.mk:22: Core/Src/USBT_Src/usbd_framwork.o] Error 1
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+15:18:47 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_driver.d" -MT"Core/Src/USBT_Src/usbd_driver.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_driver.o"
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_framwork.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_framwork.d" -MT"Core/Src/USBT_Src/usbd_framwork.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_framwork.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/USBT_Src/usbd_driver.c:151:13: warning: 'oepint_handler' defined but not used [-Wunused-function]
+  151 | static void oepint_handler() {
+      |             ^~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_driver.c:135:13: warning: 'iepint_handler' defined but not used [-Wunused-function]
+  135 | static void iepint_handler() {
+      |             ^~~~~~~~~~~~~~
+In file included from ../Core/Inc/USBT_Inc/usbd_standards.h:13,
+                 from ../Core/Inc/USBT_Inc/usbd_driver.h:13,
+                 from ../Core/Src/USBT_Src/usbd_framwork.c:8:
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:21: error: 'HID_APPLICATION' undeclared here (not in a function); did you mean 'HID_COLLECTION'?
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |                     ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usb_hid.h:199:56: note: in definition of macro '_HID_RI_ENCODE_8'
+  199 |     #define _HID_RI_ENCODE_8(Data)                  , (Data & 0xFF)
+      |                                                        ^~~~
+../Core/Inc/USBT_Inc/usb_hid.h:186:37: note: in expansion of macro 'CONCAT'
+  186 |     #define CONCAT_EXPANDED(x, y)   CONCAT(x, y)
+      |                                     ^~~~~~
+../Core/Inc/USBT_Inc/usb_hid.h:202:53: note: in expansion of macro 'CONCAT_EXPANDED'
+  202 |     #define _HID_RI_ENCODE(DataBits, ...)           CONCAT_EXPANDED(_HID_RI_ENCODE_, DataBits(__VA_ARGS__))
+      |                                                     ^~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usb_hid.h:203:95: note: in expansion of macro '_HID_RI_ENCODE'
+  203 |     #define _HID_RI_ENTRY(Type, Tag, DataBits, ...) (Type | Tag | HID_RI_DATA_BITS(DataBits)) _HID_RI_ENCODE(DataBits, (__VA_ARGS__))
+      |                                                                                               ^~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usb_hid.h:237:49: note: in expansion of macro '_HID_RI_ENTRY'
+  237 | #define HID_RI_COLLECTION(DataBits, ...)        _HID_RI_ENTRY(HID_RI_TYPE_MAIN  , 0xA0, DataBits, __VA_ARGS__)
+      |                                                 ^~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usb_hid.h:299:45: note: in expansion of macro 'HID_RI_COLLECTION'
+  299 | #define HID_COLLECTION(data)                HID_RI_COLLECTION(8, data)          /**<\copydoc HID_RI_COLLECTION */
+      |                                             ^~~~~~~~~~~~~~~~~
+../Core/Inc/USBT_Inc/usbd_descriptors.h:35:5: note: in expansion of macro 'HID_COLLECTION'
+   35 |     HID_COLLECTION (HID_APPLICATION), // COLLECTION (Application)
+      |     ^~~~~~~~~~~~~~
+../Core/Src/USBT_Src/usbd_framwork.c: In function 'process_standard_device_request':
+../Core/Src/USBT_Src/usbd_framwork.c:35:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   35 |       usbd_handle -> prt_in_buffer = &device_descriptor;
+      |                                    ^
+../Core/Src/USBT_Src/usbd_framwork.c:41:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   41 |       usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      |                                    ^
+make: *** [Core/Src/USBT_Src/subdir.mk:22: Core/Src/USBT_Src/usbd_framwork.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+15:19:07 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/USBT_Src/usbd_framwork.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L476xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/USBT_Src/usbd_framwork.d" -MT"Core/Src/USBT_Src/usbd_framwork.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/USBT_Src/usbd_framwork.o"
+../Core/Src/USBT_Src/usbd_framwork.c: In function 'process_standard_device_request':
+../Core/Src/USBT_Src/usbd_framwork.c:35:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   35 |       usbd_handle -> prt_in_buffer = &device_descriptor;
+      |                                    ^
+../Core/Src/USBT_Src/usbd_framwork.c:41:36: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+   41 |       usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      |                                    ^
+arm-none-eabi-gcc -o "TEst.elf" @"objects.list"   -mcpu=cortex-m4 -T"/mnt/Qdata/workdir/STM-workdir/USBD_HID_Scratch/STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TEst.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: TEst.elf
+ 
+arm-none-eabi-size  TEst.elf 
+arm-none-eabi-objdump -h -S TEst.elf  > "TEst.list"
+   text	   data	    bss	    dec	    hex	filename
+  20396	    132	   3212	  23740	   5cbc	TEst.elf
+Finished building: default.size.stdout
+ 
+Finished building: TEst.list
+ 
+17:30:23 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-size  TEst.elf 
+   text	   data	    bss	    dec	    hex	filename
+  20396	    132	   3212	  23740	   5cbc	TEst.elf
+Finished building: default.size.stdout
+ 
+18:00:30 **** Incremental Build of configuration Debug for project TEst ****
+make -j8 all 
+arm-none-eabi-size  TEst.elf 
+   text	   data	    bss	    dec	    hex	filename
+  20396	    132	   3212	  23740	   5cbc	TEst.elf
+Finished building: default.size.stdout
+ 

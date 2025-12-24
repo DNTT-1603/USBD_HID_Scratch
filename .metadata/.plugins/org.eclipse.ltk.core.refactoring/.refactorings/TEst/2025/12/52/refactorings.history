@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;TEst/Core/Inc/USBT_Inc/usd_hid.h&apos; to &apos;usb_hid.h&apos;" description="Rename resource &apos;usd_hid.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/USBT_Inc/usd_hid.h" name="usb_hid.h" stamp="1766557125447" updateReferences="true"/>
+</session>

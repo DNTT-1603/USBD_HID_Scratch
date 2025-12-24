@@ -1,0 +1,26 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "STM32",
+            "compilerPath": "/usr/bin/gcc",
+            "intelliSenseMode": "gcc-arm",
+            "defines": [
+                "STM32L476xx",
+                "USE_HAL_DRIVER"
+            ],
+            "includePath": [
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/Core/Inc/USBT_Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32L4xx/Include",
+                "${workspaceFolder}/Drivers/STM32L4xx_HAL_Driver/Inc"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ]
+            }
+        }
+    ]
+}

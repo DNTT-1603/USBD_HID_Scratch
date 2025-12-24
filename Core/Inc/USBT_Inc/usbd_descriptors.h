@@ -1,0 +1,131 @@
+/*
+ * usbd_descriptors.h
+ *
+ *  Created on: Nov 3, 2025
+ *      Author: tudo
+ */
+
+#ifndef INC_USBT_INC_USBD_DESCRIPTORS_H_
+#define INC_USBT_INC_USBD_DESCRIPTORS_H_
+#include "USBT_Inc/usbd_standards.h"
+#include "usbd_standards.h"
+#include "USBT_Inc/usd_hid_standard.h"
+
+const UsbDeviceDescriptor device_descriptor = {
+    .bLength = sizeof(UsbDeviceDescriptor),
+    .bDescriptorType = USB_DESCRIPTOR_TYPE_DEVICE,
+    .bcdUSB = 0x0200, // USB 2.0
+    .bDeviceClass = USB_CLASS_PER_INTERFACE,
+    .bDeviceSubClass = USB_SUBCLASS_NONE,
+    .bDeviceProtocol = USB_PROTOCOL_NONE,
+    .bMaxPacketSize0 = USB_MAX_PACKET_SIZE_ENP0 , // Max packet size for endpoint 0
+    .idVendor = 0x1234, // Example Vendor ID
+    .idProduct = 0x5678, // Example Product ID
+    .bcdDevice = 0x0100, // Device release number
+    .iManufacturer = 1, // Index of manufacturer string descriptor
+    .iProduct = 0x03, // Index of product string descriptor
+    .iSerialNumber = 0x16, // Index of serial number string descriptor
+    .bNumConfigurations = 1 // Number of possible configurations
+};
+
+
+const uint8_t hid_report_descriptor [] = {
+    HID_USAGE_PAGE (HID_PAGE_DESKTOP), // USAGE_PAGE (Generic Desktop)
+    HID_USAGE (HID_DESKTOP_MOUSE), // USAGE (Mouse)
+    HID_COLLECTION (HID_APPLICATION_COLLECTION), // COLLECTION (Application)
+        HID_USAGE (HID_DESKTOP_POINTER), // USAGE (Pointer)
+        HID_COLLECTION (HID_PHYSICAL_COLLECTION ), // COLLECTION (Physical)
+            HID_USAGE (HID_DESKTOP_X),   // USAGE (X)
+            HID_USAGE (HID_DESKTOP_Y),   // USAGE (Y)
+            HID_LOGICAL_MINIMUM (-127),              // LOGICAL_MINIMUM (-127)
+            HID_LOGICAL_MAXIMUM (127),               // LOGICAL_MAXIMUM (127)
+            HID_REPORT_SIZE (8),                    // REPORT_SIZE (8)
+            HID_REPORT_COUNT (2),                   // REPORT_COUNT (1)
+            HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_RELATIVE), // INPUT ( Data,Var,Rel)
+
+            HID_USAGE_PAGE (HID_PAGE_BUTTON),       // USAGE_PAGE (Generic Desktop)
+            HID_USAGE_MINIMUM (1),                 // USAGE_MINIMUM (1)
+            HID_USAGE_MAXIMUM (3),                 // USAGE_MAXIMUM (3)
+            HID_LOGICAL_MINIMUM (0),               // LOGICAL_MINIMUM (0)
+            HID_LOGICAL_MAXIMUM (1),               // LOGICAL_MAXIMUM (1)
+            HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+            HID_REPORT_COUNT (3),                   // REPORT_COUNT (3)
+            HID_INPUT (HID_IOF_DATA | HID_IOF_VARIABLE  | HID_IOF_ABSOLUTE), // INPUT ( Data,Var,Abs)
+            HID_REPORT_SIZE (1),                    // REPORT_SIZE (1)
+            HID_REPORT_COUNT (5),                   // REPORT_COUNT (5)
+            HID_INPUT (HID_IOF_CONSTANT),           // INPUT (Cnst)
+        HID_END_COLLECTION,                     // END_COLLECTION
+    HID_END_COLLECTION                     // END_COLLECTION
+};
+
+const UsbConfigurationDescriptor configuration_descriptor = {
+    .bLength = sizeof(UsbConfigurationDescriptor),
+    .bDescriptorType = USB_DESCRIPTOR_TYPE_CONFIGURATION,
+    .wTotalLength = sizeof(UsbConfigurationDescriptor), // Total length of data returned for this configuration
+    .bNumInterfaces = 1, // Number of interfaces supported by this configuration
+    .bConfigurationValue = 1, // Value to use as an argument to select this configuration
+    .iConfiguration = 0, // Index of string descriptor describing this configuration
+    .bmAttributes = 0x80, // Bus powered
+    .bMaxPower = 50 // Max power consumption in 2mA units (100mA)
+};
+
+
+typedef struct {
+    UsbConfigurationDescriptor usb_configuration_descriptor;
+    UsbInterfaceDescriptor usb_interface_descriptor;
+
+    UsbEndpointDescriptor usb_mouse_endpoint_descriptor;
+    UsbHidDescriptor usb_hid_descriptor;
+
+}UsbConfigurationDescriptorCombination;
+
+
+const UsbConfigurationDescriptorCombination configuration_descriptor_combination = {
+    .usb_configuration_descriptor = {
+        .bLength = sizeof(UsbConfigurationDescriptor),
+        .bDescriptorType = USB_DESCRIPTOR_TYPE_CONFIGURATION,
+        .wTotalLength = sizeof(UsbConfigurationDescriptorCombination), // Total length of data returned for
+        .bNumInterfaces = 1, // Number of interfaces supported by this configuration (now only 1 due to it is mouse)
+        .bConfigurationValue = 1, // Value to use as an argument to select this
+        .iConfiguration = 0, // Index of string descriptor describing this configuration
+        .bmAttributes = 0x80 | 0x40, // Bus powered
+        .bMaxPower = 50 // Max power consumption in 2mA units (100mA)
+    },
+    .usb_interface_descriptor = {
+        .bLength = sizeof(UsbInterfaceDescriptor),
+        .bDescriptorType = USB_DESCRIPTOR_TYPE_INTERFACE,
+        .bInterfaceNumber = 1,
+        .bAlternateSetting = 0,
+        .bNumEndpoints = 1,
+        .bInterfaceClass = USB_CLASS_HID,
+        .bInterfaceSubClass = USB_PROTOCOL_NONE, // Boot Interface Subclass
+        .bInterfaceProtocol = USB_PROTOCOL_NONE, // Mouse
+        .iInterface = USB_PROTOCOL_NONE
+    },
+    .usb_mouse_endpoint_descriptor = {
+        .bLength = sizeof(UsbEndpointDescriptor),
+        .bDescriptorType = USB_DESCRIPTOR_TYPE_ENDPOINT,
+        .bEndpointAddress = 0x83, // IN endpoint 3
+        .bmAttributes = USB_ENDPOINT_TYPE_INTERRUPT,
+        .wMaxPacketSize = 64,
+        .bInterval = 50 // Polling interval in ms
+    },
+    . usb_hid_descriptor = {
+        .bLength = sizeof(UsbHidDescriptor),
+        .bDescriptorType = USB_DESCRIPTOR_TYPE_HID,
+        .bcdHID = 0x0111, // HID Class Spec release number (1.11)
+        .bCountryCode = USB_HID_COUNTRY_CODE_NONE,
+        .bNumDescriptors = 1,
+        .bReportDescriptorType = USB_DESCRIPTOR_TYPE_HID_REPORT,
+        .wReportDescriptorLength = sizeof(hid_report_descriptor)
+    }
+
+};
+
+typedef struct {
+    int8_t x;
+    int8_t y;
+    uint8_t buttons;
+} HidReport;
+
+#endif /* INC_USBT_INC_USBD_DESCRIPTORS_H_ */

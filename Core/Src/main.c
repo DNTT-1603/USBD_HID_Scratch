@@ -22,104 +22,54 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include <USBT_Inc/usbd_framwork.h>
+
 #include <logger.h>
+#include <USBT_Inc/usbd_framwork.h>
+#include "USBT_Inc/usb_device.h"
+
+
 LogLevel system_log_level = LOG_LEVEL_DEBUG;
 
-/* USER CODE END Includes */
+UsbDevice usb_device;
 
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
+uint32_t buffer[8]; 	//fifo buffer.
 
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
-/* USER CODE BEGIN PFP */
 
-/* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-//int _write(int file, char *ptr, int len)
-//{
-//  int i=0;
-//  for(i=0 ; i<len ; i++)
-//    ITM_SendChar((*ptr++));
-//
-//  return len;
-//}
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
 int main(void)
 {
 
-  /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  /* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USB_OTG_FS_PCD_Init();
-  usbd_initialize();
 
-  /* USER CODE BEGIN 2 */
   log_info("Setting project");
-//  usbd_initialize();
-//  /* USER CODE END 2 */
 
-//  disconnect();
+  usb_device.prt_out_buffer = buffer;
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+  
+  usbd_initialize(&usb_device);
+
+
+
   while (1)
   {
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+      usbd_poll();
   }
-  /* USER CODE END 3 */
+
 }
 
 /**

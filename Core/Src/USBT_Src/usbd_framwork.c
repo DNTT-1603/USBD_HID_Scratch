@@ -6,11 +6,200 @@
  */
 
 #include "USBT_Inc/usbd_driver.h"
+#include "USBT_Inc/usbd_framwork.h"
+#include "logger.h"
+#include "USBT_Inc/usbd_descriptors.h"
+#include "mathsp.h"
 
-void usbd_initialize() {
-	// initialize_usb_core_external();
-//	initialize_usb_pin();
-//	initialize_core();
-	// connect();
+
+static UsbDevice *usbd_handle;
+
+void usbd_initialize(UsbDevice *usb_device) {
+  usbd_handle = usb_device;
+  usbd_driver.initialize_usb_core_external();
+  usbd_driver.connect();
+
 
 }
+static void  process_standard_device_request(const UsbRequest* request)
+{
+  switch (request->bRequest)
+  {
+  case USB_STANDARD_GET_DESCRIPTOR:
+    log_info("GET_DESCRIPTOR request received");
+    const uint8_t descriptor_type = (request->wValue >> 8) & 0xFF;
+    switch (descriptor_type)
+    {
+    case USB_DESCRIPTOR_TYPE_DEVICE:
+      log_info("Device Descriptor requested");
+      usbd_handle -> prt_in_buffer = &device_descriptor;
+      usbd_handle -> in_data_size = request->wLength;
+      usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_DATA_IN;
+      break;
+    case USB_DESCRIPTOR_TYPE_CONFIGURATION:
+      log_info("Configuration Descriptor requested");
+      usbd_handle -> prt_in_buffer = &configuration_descriptor_combination;
+      usbd_handle -> in_data_size = request->wLength;
+      usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_DATA_IN;
+      break;
+    default:
+      break;
+    }
+    break;
+
+  case USB_STANDARD_SET_ADDRESS: // SET_ADDRESS
+    log_info("SET_ADDRESS request received");
+    const uint8_t device_address = request->wValue & 0x7F;
+    usbd_driver.set_device_address(device_address);
+    usbd_handle -> device_state = USB_DEVICE_STATUS_ADDRESS;
+    log_info("Device address set to %d", device_address);
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_IN; // write zero-length packet ask ack
+    break;
+  case USB_STANDARD_SET_CONFIG: // SET_CONFIGURATION
+    log_info("SET_CONFIGURATION request received");
+    log_info("Device configured with configuration value %d", request->wValue & 0xFF);
+    usbd_handle -> configuration_value = request->wValue & 0xFF;
+    usbd_handle -> device_state = USB_DEVICE_STATUS_CONFIGURED;
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_IN; // write zero-length packet ask ack
+    break;
+
+  default:
+    log_error("Unsupported standard device request: 0x%02X", request->bRequest);
+    break;
+  }
+}
+
+static void process_request() {
+  const UsbRequest* request = usbd_handle -> prt_out_buffer;
+
+  switch (request->bmRequestType & (USB_BM_REQUEST_TYPE_TYPE_MASK | USB_BM_REQUEST_TYPE_RECIPIENT_MASK  ))
+  {
+  case USB_BM_REQUEST_TYPE_TYPE_STANDARD | USB_BM_REQUEST_TYPE_RECIPIENT_DEVICE:
+    process_standard_device_request(request);
+    /* code */
+    break;
+
+  default:
+    break;
+  }
+
+}
+static void process_control_transfer_state() {
+  switch (usbd_handle -> control_transfer_stage)
+  {
+  case USB_CONTROL_STAGE_SETUP:
+    /* code */
+    break;
+  case USB_CONTROL_STAGE_DATA_OUT:
+    /* code */
+    break;
+  case USB_CONTROL_STAGE_DATA_IN:
+    log_debug("[%s] Switch to USB_CONTROL_STAGE_DATA_IN stage", __func__ );
+
+    //unsigned int data_size = device_descriptor.bMaxPacketSize0;
+    uint8_t data_size = MIN(usbd_handle -> in_data_size, device_descriptor.bMaxPacketSize0);
+
+
+    usbd_driver.write_packet(0, usbd_handle -> prt_in_buffer,data_size);
+    usbd_handle -> in_data_size -= data_size;
+    usbd_handle -> prt_in_buffer += data_size;
+    // waiting until data is read by host
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_DATA_IN_IDLE;
+    
+    if(usbd_handle -> in_data_size == 0){
+      log_info("All data sent to host");
+      if (data_size == device_descriptor.bMaxPacketSize0){
+        log_debug("[%s] Switch to USB_CONTROL_STATE_DATA_IN_ZERO", __func__ );
+        usbd_handle -> control_transfer_stage = USB_CONTROL_STATE_DATA_IN_ZERO;
+      }
+      else {
+        log_debug("[%s] Switch to USB_CONTROL_STAGE_STATUS_OUT", __func__ );
+        usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_OUT;
+
+      }
+    }
+
+    break;
+  case USB_CONTROL_STAGE_DATA_IN_IDLE:
+    /* code */
+    break;
+  case USB_CONTROL_STATE_DATA_IN_ZERO:
+    /* code */
+    break;
+  case USB_CONTROL_STAGE_STATUS_OUT:
+    log_debug("[%s] Switch to SETUP stage", __func__ );
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_SETUP;
+
+    break;
+  case USB_CONTROL_STAGE_STATUS_IN:
+    /* code */
+    usbd_driver.write_packet(0, NULL, 0);
+    log_debug("[%s] In Stage:USB_CONTROL_STAGE_STATUS_IN ", __func__ );
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_SETUP;
+    break;
+
+  default:
+    break;
+  }
+
+
+}
+
+void usbd_poll() {
+	usbd_driver.poll();
+}
+
+void usbd_configure() {
+
+}
+
+static void usb_reset_received_handler(){
+  usbd_handle ->in_data_size = 0;
+  usbd_handle ->out_data_size=0;
+  usbd_handle ->configuration_value=0;
+  usbd_handle ->device_state= USB_DEVICE_STATUS_DEFAULT;
+  usbd_handle ->control_transfer_stage=USB_CONTROL_STAGE_SETUP;
+  usbd_driver.set_device_address(0);
+}
+
+static void in_transfer_completed_handler (uint8_t endpoint_number) {
+  log_info("IN transfer completed on endpoint %d", endpoint_number);
+  if(usbd_handle -> in_data_size){
+    log_info("Switch to DATA IN stage");
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_DATA_IN;
+
+  }
+  else if (usbd_handle -> control_transfer_stage == USB_CONTROL_STATE_DATA_IN_ZERO){
+    // write zero-length packet
+    log_debug("[%s] Send zero-length packet", __func__ );
+    usbd_driver.write_packet(0, NULL, 0);
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_OUT;
+  }
+}
+static void out_transfer_completed_handler (uint8_t endpoint_number) {
+  log_info("OUT transfer completed on endpoint %d", endpoint_number);
+
+}
+
+/// \brief endpoint triggle event and number byte received.
+static void usb_setup_data_received_handler (uint8_t endpoint_number, uint16_t bcnt) {
+  usbd_driver.read_packet(usbd_handle -> prt_out_buffer, bcnt);
+
+  log_debug_array("Setup data: ", usbd_handle->prt_out_buffer, bcnt);
+
+  process_request();
+
+}
+static void usb_polled_hander(){
+  process_control_transfer_state();
+
+}
+UsbEvents usb_events= {
+    .on_usb_reset_received = usb_reset_received_handler,
+    .on_setup_data_received = usb_setup_data_received_handler,
+    .on_usb_polled = usb_polled_hander,
+    .on_in_transfer_completed = in_transfer_completed_handler,
+    .on_out_transfer_completed = out_transfer_completed_handler,
+
+    //todo
+};

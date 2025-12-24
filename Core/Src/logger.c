@@ -35,6 +35,8 @@ char const * const _get_log_level_string(LogLevel const log_level)
         case LOG_LEVEL_DEBUG:
             return "DEBUG";
     }
+
+    return "INFO";
 }
 
 static void _log(LogLevel const log_level, char const * const format, va_list args)
