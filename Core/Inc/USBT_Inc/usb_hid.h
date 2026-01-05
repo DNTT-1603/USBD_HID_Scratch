@@ -73,12 +73,13 @@
 
 /**\name USB HID class-specified requests
  * @{ */
-#define USB_HID_GETREPORT           0x01    /**<\brief Request to get the current HID report from the device.*/
-#define USB_HID_GETIDLE             0x02    /**<\brief Request to get the current device idle count.*/
-#define USB_HID_GETPROTOCOL         0x03    /**<\brief Request to get the current HID report protocol mode.*/
-#define USB_HID_SETREPORT           0x09    /**<\brief Request to set the current HID report to the device.*/
-#define USB_HID_SETIDLE             0x0A    /**<\brief Request to set the device's idle count.*/
-#define USB_HID_SETPROTOCOL         0x0B    /**<\brief Request to set the current HID report protocol mode.*/
+#define USB_HID_GET_REPORT           0x01    /**<\brief Request to get the current HID report from the device.*/
+#define USB_HID_GET_IDLE             0x02    /**<\brief Request to get the current device idle count.*/
+#define USB_HID_GET_PROTOCOL         0x03    /**<\brief Request to get the current HID report protocol mode.*/
+#define USB_HID_SET_REPORT           0x09    /**<\brief Request to set the current HID report to the device.*/
+#define USB_HID_SET_IDLE             0x0A    /**<\brief Request to set the device's idle count.*/
+#define USB_HID_SET_PROTOCOL         0x0B    /**<\brief Request to set the current HID report protocol mode.*/
+
 /** @} */
 
 /**\name USB HID class-specified descriptor types

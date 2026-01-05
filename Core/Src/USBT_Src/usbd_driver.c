@@ -135,7 +135,7 @@ void disconnect()
 static void iepint_handler() {
 	//Find which IN endpoint generated the interrupt 
 	uint32_t daint = ffs(USB_OTG_FS_DEVICE -> DAINT) -1; //It finds the position of the first (least significant) bit that is set to 1
-	
+
 	// complete IN transfer
 	if(IN_ENDPOINT(daint)->DIEPINT & USB_OTG_DIEPINT_XFRC) {
 		log_debug("IN endpoint %d transfer completed", daint);
@@ -193,11 +193,14 @@ void GINTSTS_handler() {
 	}
 	else if (gintsts & USB_OTG_GINTSTS_IEPINT) { 
 		// there are in interrupt need to handle hear, 
-
+		iepint_handler();
+		SET_BIT(USB_OTG_FS_GLOBAL->GINTSTS,USB_OTG_GINTSTS_IEPINT_Msk);
 
 	}
 	else if (gintsts & USB_OTG_GINTSTS_OEPINT) {
-
+		// there are out interrupt need to handle hear, 
+		oepint_handler();
+		SET_BIT(USB_OTG_FS_GLOBAL->GINTSTS,USB_OTG_GINTSTS_OEPINT_Msk);
 	}
 	usb_events.on_usb_polled();
 

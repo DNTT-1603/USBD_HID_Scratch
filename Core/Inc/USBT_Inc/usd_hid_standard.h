@@ -22,6 +22,6 @@ typedef struct
     uint8_t  bNumDescriptors;           // Number of HID class descriptors
     uint8_t  bReportDescriptorType;     // Report descriptor type
     uint16_t wReportDescriptorLength; // Total length of Report descriptor
-} UsbHidDescriptor;
+} __attribute__((__packed__)) UsbHidDescriptor;
 
 #endif /* INC_USBT_INC_USD_HID_STANDARD_H_ */

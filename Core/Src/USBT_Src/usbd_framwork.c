@@ -19,8 +19,8 @@ void usbd_initialize(UsbDevice *usb_device) {
   usbd_driver.initialize_usb_core_external();
   usbd_driver.connect();
 
-
 }
+
 static void  process_standard_device_request(const UsbRequest* request)
 {
   switch (request->bRequest)
@@ -57,14 +57,47 @@ static void  process_standard_device_request(const UsbRequest* request)
     break;
   case USB_STANDARD_SET_CONFIG: // SET_CONFIGURATION
     log_info("SET_CONFIGURATION request received");
-    log_info("Device configured with configuration value %d", request->wValue & 0xFF);
-    usbd_handle -> configuration_value = request->wValue & 0xFF;
+    log_info("Device configured with configuration value %d", request->wValue);
+    usbd_handle -> configuration_value = request->wValue;
+    usbd_configure();
     usbd_handle -> device_state = USB_DEVICE_STATUS_CONFIGURED;
     usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_IN; // write zero-length packet ask ack
     break;
 
   default:
     log_error("Unsupported standard device request: 0x%02X", request->bRequest);
+    break;
+  }
+}
+
+static void process_class_interface_request(const UsbRequest* request)
+{
+  log_info("Class-specific interface request received: 0x%02X", request->bRequest);
+  switch (request->bRequest)
+  {
+  case USB_HID_SET_IDLE:
+    log_info("Switch to USB_CONTROL_STAGE_STATUS_IN stage for HID_SET_IDLE");
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_IN;
+    break;
+  default:
+    log_error("Unsupported class-specific interface request: 0x%02X", request->bRequest);
+    break;
+  }
+}
+
+static void process_standard_interface_request(const UsbRequest* request)
+{
+  log_info("Standard interface request received: 0x%02X", request->bRequest);
+  switch (request->wValue >> 8)
+  {
+  case USB_DESCRIPTOR_TYPE_HID_REPORT:
+    log_info("HID Report Descriptor requested");
+    usbd_handle -> prt_in_buffer = &hid_report_descriptor;
+    usbd_handle -> in_data_size = sizeof(hid_report_descriptor);
+    usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_DATA_IN;
+    break;
+  default:
+    log_error("Unsupported standard interface request: 0x%02X", request->bRequest);
     break;
   }
 }
@@ -78,7 +111,13 @@ static void process_request() {
     process_standard_device_request(request);
     /* code */
     break;
+  case USB_BM_REQUEST_TYPE_TYPE_CLASS | USB_BM_REQUEST_TYPE_RECIPIENT_INTERFACE:
+    process_class_interface_request(request);
+    break;
+  case USB_BM_REQUEST_TYPE_TYPE_STANDARD | USB_BM_REQUEST_TYPE_RECIPIENT_INTERFACE:
+    process_standard_interface_request(request);
 
+    break;
   default:
     break;
   }
@@ -150,8 +189,18 @@ void usbd_poll() {
 }
 
 void usbd_configure() {
-
+  usbd_driver.configure_in_endpoint(
+      (configuration_descriptor_combination.usb_mouse_endpoint_descriptor.bEndpointAddress & 0x0F),
+      (configuration_descriptor_combination.usb_mouse_endpoint_descriptor.bmAttributes & 0x03),
+      configuration_descriptor_combination.usb_mouse_endpoint_descriptor.wMaxPacketSize
+      );
+  usbd_driver.write_packet(
+      (configuration_descriptor_combination.usb_mouse_endpoint_descriptor.bEndpointAddress & 0x0F),
+      NULL,
+      0
+      );
 }
+
 
 static void usb_reset_received_handler(){
   usbd_handle ->in_data_size = 0;
@@ -160,6 +209,19 @@ static void usb_reset_received_handler(){
   usbd_handle ->device_state= USB_DEVICE_STATUS_DEFAULT;
   usbd_handle ->control_transfer_stage=USB_CONTROL_STAGE_SETUP;
   usbd_driver.set_device_address(0);
+}
+
+static void write_mouse_report(){
+  log_info("Writing mouse report");
+  HidReport hid_report = {
+    .x =5,
+    .y =-5,
+    .buttons = 0x01
+  };
+
+  usbd_driver.write_packet(configuration_descriptor_combination.usb_mouse_endpoint_descriptor.bEndpointAddress & 0x0F,
+      &hid_report,
+      sizeof(hid_report));
 }
 
 static void in_transfer_completed_handler (uint8_t endpoint_number) {
@@ -174,6 +236,9 @@ static void in_transfer_completed_handler (uint8_t endpoint_number) {
     log_debug("[%s] Send zero-length packet", __func__ );
     usbd_driver.write_packet(0, NULL, 0);
     usbd_handle -> control_transfer_stage = USB_CONTROL_STAGE_STATUS_OUT;
+  }
+  if (endpoint_number == (configuration_descriptor_combination.usb_mouse_endpoint_descriptor.bEndpointAddress & 0x0F)){
+    write_mouse_report();
   }
 }
 static void out_transfer_completed_handler (uint8_t endpoint_number) {
